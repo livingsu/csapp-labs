@@ -40,7 +40,7 @@ objdump -d bomb >assembly
 
 ## phase 1
 
-![image-20220217193458326](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217193458326.png)
+![image-20220217193458326](https://s2.loli.net/2022/02/18/gWd7DvGTBw9VRXi.png)
 
 调用了strings_not_equal这个函数，如果结果为0，调用explode_bomb函数。所以关键是strings_not_equal(a,b)
 
@@ -58,11 +58,11 @@ Border relations with Canada have never been better.
 
 ## phase 2
 
-![image-20220217203450601](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217203450601.png)
+![image-20220217203450601](https://s2.loli.net/2022/02/18/ujdPOSI8eYcME9g.png)
 
 首先是read_six_numbers(string s, $rsp)有两个参数。
 
-![image-20220217203610935](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217203610935.png)
+![image-20220217203610935](https://s2.loli.net/2022/02/18/1lbaW7VGj2DOHJ4.png)
 
 发现里面调用了sscanf(str,format,...)库函数，用法是：将str按照format的格式，赋值给后面的变量，返回成功的数量。
 
@@ -74,7 +74,7 @@ sscanf("12 23","%d %d",a,b);
 
 在400f0a处打断点，并输出rsp：
 
-![image-20220217204204087](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217204204087.png)
+![image-20220217204204087](https://s2.loli.net/2022/02/18/Qh8gLY9vOiAxWBJ.png)
 
 猜想正确。
 
@@ -82,7 +82,7 @@ sscanf("12 23","%d %d",a,b);
 
 然后仔细观察后面的代码。
 
-![image-20220217204304916](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217204304916.png)
+![image-20220217204304916](https://s2.loli.net/2022/02/18/84jtDfzwUmdyWJV.png)
 
 400f0a：说明第一个数是1
 
@@ -100,7 +100,7 @@ sscanf("12 23","%d %d",a,b);
 
 ## phase 3
 
-![image-20220217205926869](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217205926869.png)
+![image-20220217205926869](https://s2.loli.net/2022/02/18/AIUgzGLnlDMSCNj.png)
 
 sscanf是加载两个十进制数"%d %d"，到0x8(rsp)和0xc(rsp)中。
 
@@ -110,7 +110,7 @@ sscanf是加载两个十进制数"%d %d"，到0x8(rsp)和0xc(rsp)中。
 
 ## phase 4
 
-![image-20220217215848662](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220217215848662.png)
+![image-20220217215848662](https://s2.loli.net/2022/02/18/gGaux85WDN34Y2K.png)
 
 需要输入两个整数m,n，其中m需要满足：func4(m,0,0xe)==0，
 
@@ -171,21 +171,21 @@ n=7
 
 ## phase 5
 
-![image-20220218101109246](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220218101109246.png)
+![image-20220218101109246](https://s2.loli.net/2022/02/18/wvFSGknZld8x7WM.png)
 
 string_length字符串长度是6
 
-![image-20220218101158361](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220218101158361.png)
+![image-20220218101158361](https://s2.loli.net/2022/02/18/GmOfVLUIYlDyB8Z.png)
 
 这里是一个循环，rbx是输入字符串（str），循环6次，将每个循环的字符，和0xF and以后作为下标，取0x4024b0数组的元素，重新组成字符串，要等于0x40245e这里的字符串。
 
 数组0x4024b0：
 
-![image-20220218100700986](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220218100700986.png)
+![image-20220218100700986](https://s2.loli.net/2022/02/18/Mj4deWcCfgkvRuE.png)
 
 比较的字符串：（有6位）
 
-![image-20220218100746096](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220218100746096.png)
+![image-20220218100746096](https://s2.loli.net/2022/02/18/hPDV64iQSNn5GIX.png)
 
 在数组中，下标为9 f e 5 6 7
 
@@ -288,7 +288,7 @@ goto .L8
 
 打印0x6032d0：是一个二叉树，且只有左节点。根节点是0x6032d0
 
-![image-20220218132656677](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220218132656677.png)
+![image-20220218132656677](https://s2.loli.net/2022/02/18/mXwULjt1rbNfoYy.png)
 
 ```c++
 struct node{
@@ -305,7 +305,7 @@ struct node{
 
 打印后发现结果确实如此：
 
-![image-20220218133120222](C:\Users\17538\AppData\Roaming\Typora\typora-user-images\image-20220218133120222.png)
+![image-20220218133120222](https://s2.loli.net/2022/02/18/ki1lBexYCjTL7ny.png)
 
 ### 6.3
 
