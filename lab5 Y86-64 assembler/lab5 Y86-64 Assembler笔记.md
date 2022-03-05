@@ -53,7 +53,7 @@ typedef struct reloc {
 } reloc_t;
 ```
 
-<img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20220305173733108.png" alt="image-20220305173733108" style="zoom:50%;" />
+<img src="https://s2.loli.net/2022/03/05/uIm6kWP4RHzOA3t.png" alt="image-20220305173733108" style="zoom:50%;" />
 
 ## 伪指令I_DIRECTIVE说明
 
