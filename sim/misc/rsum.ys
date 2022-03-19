@@ -1,0 +1,42 @@
+# name: 刘焯
+# id: 518021910888
+
+    .pos 0
+init:
+    irmovq Stack, %rsp
+    call Main
+    halt
+
+    .align 8
+ele1:
+    .quad 0x00a
+    .quad ele2
+ele2:
+    .quad 0x0b0
+    .quad ele3
+ele3:
+    .quad 0xc00
+    .quad 0
+
+Main:
+    irmovq ele1, %rdi
+    call rsum_list
+    ret
+
+rsum_list:
+    pushq %rbx
+    xorq %rax, %rax
+    andq %rdi, %rdi
+    je end
+    mrmovq (%rdi), %rbx
+    irmovq $8, %rsi
+    addq %rsi, %rdi
+    mrmovq (%rdi), %rdi
+    call rsum_list
+    addq %rbx, %rax
+end:
+    popq %rbx
+    ret
+
+    .pos 0x800
+Stack:
