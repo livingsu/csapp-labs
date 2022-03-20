@@ -4,9 +4,16 @@
 # Return the number of positive words (>0) contained in src.
 #
 # Include your name and ID here.
+# name: 刘焯
+# id: 518021910888
 #
 # Describe how and why you modified the baseline code.
-#
+# 1. Use 'iaddq' instruction instead of 'rrmovq' + 'addq' instruction combination.
+#    It can reduce one clock cycle.
+# 2. Put 8 elements in one iteration to implement loop unrolling.
+#    It can reduce loop index calculation and conditional branching calculation.
+# 3. Insert instructions between 'mrmovq' and 'rmmovq'.
+#    It can take advantage of bubbles caused by data harzard.
 ##################################################################
 # Do not modify this portion
 # Function prologue.
@@ -16,23 +23,138 @@ ncopy:
 ##################################################################
 # You can modify this portion
 	# Loop header
-	xorq %rax,%rax		# count = 0;
-	andq %rdx,%rdx		# len <= 0?
-	jle Done		# if so, goto Done:
+	xorq %rax,%rax
+Test8:
+	iaddq $-8, %rdx
+	jl Remain
+Loop8:		
+	mrmovq (%rdi), %rcx
+	mrmovq 8(%rdi), %rbx
+	mrmovq 16(%rdi), %r8
+	mrmovq 24(%rdi), %r9
+	mrmovq 32(%rdi), %r10
+	mrmovq 40(%rdi), %r11
+	mrmovq 48(%rdi), %r12
+	mrmovq 56(%rdi), %r13
+	rmmovq %rcx, (%rsi)
+	rmmovq %rbx, 8(%rsi)
+	rmmovq %r8, 16(%rsi)
+	rmmovq %r9, 24(%rsi)
+	rmmovq %r10, 32(%rsi)
+	rmmovq %r11, 40(%rsi)
+	rmmovq %r12, 48(%rsi)
+	rmmovq %r13, 56(%rsi)
+	andq %rcx, %rcx
+	jle Npos1
+	iaddq $1, %rax
+Npos1:
+	andq %rbx, %rbx
+	jle Npos2
+	iaddq $1, %rax
+Npos2:
+	andq %r8, %r8
+	jle Npos3
+	iaddq $1, %rax
+Npos3:
+	andq %r9, %r9
+	jle Npos4
+	iaddq $1, %rax
+Npos4:
+	andq %r10, %r10
+	jle Npos5
+	iaddq $1, %rax
+Npos5:
+	andq %r11, %r11
+	jle Npos6
+	iaddq $1, %rax
+Npos6:
+	andq %r12, %r12
+	jle Npos7
+	iaddq $1, %rax
+Npos7:
+	andq %r13, %r13
+	jle Npos8
+	iaddq $1, %rax
+Npos8:
+	iaddq $64, %rdi
+	iaddq $64, %rsi
+	iaddq $-8, %rdx
+	jge Loop8
 
-Loop:	mrmovq (%rdi), %r10	# read val from src...
-	rmmovq %r10, (%rsi)	# ...and store it to dst
-	andq %r10, %r10		# val <= 0?
-	jle Npos		# if so, goto Npos:
-	irmovq $1, %r10
-	addq %r10, %rax		# count++
-Npos:	irmovq $1, %r10
-	subq %r10, %rdx		# len--
-	irmovq $8, %r10
-	addq %r10, %rdi		# src++
-	addq %r10, %rsi		# dst++
-	andq %rdx,%rdx		# len > 0?
-	jg Loop			# if so, goto Loop:
+
+Remain:
+	iaddq $8, %rdx
+	jg R1
+	ret
+R1:
+	mrmovq (%rdi), %r10
+	mrmovq 8(%rdi), %r11
+	rmmovq %r10, (%rsi)
+	andq %r10, %r10
+	jle Npos9
+	iaddq $1, %rax
+Npos9:
+	iaddq $-1, %rdx
+	jne R2
+	ret
+R2:
+	mrmovq 16(%rdi), %r10
+	rmmovq %r11, 8(%rsi)
+	andq %r11, %r11
+	jle Npos10
+	iaddq $1, %rax
+Npos10:
+	iaddq $-1, %rdx
+	jne R3
+	ret
+R3:
+	mrmovq 24(%rdi), %r11
+	rmmovq %r10, 16(%rsi)
+	andq %r10, %r10
+	jle Npos11
+	iaddq $1, %rax
+Npos11:
+	iaddq $-1, %rdx
+	jne R4
+	ret
+R4:
+	mrmovq 32(%rdi), %r10
+	rmmovq %r11, 24(%rsi)
+	andq %r11, %r11
+	jle Npos12
+	iaddq $1, %rax
+Npos12:
+	iaddq $-1, %rdx
+	jne R5
+	ret
+R5:
+	mrmovq 40(%rdi), %r11
+	rmmovq %r10, 32(%rsi)
+	andq %r10, %r10
+	jle Npos13
+	iaddq $1, %rax
+Npos13:
+	iaddq $-1, %rdx
+	jne R6
+	ret
+R6:
+	mrmovq 48(%rdi), %r10
+	rmmovq %r11, 40(%rsi)
+	andq %r11, %r11
+	jle Npos14
+	iaddq $1, %rax
+Npos14:
+	iaddq $-1, %rdx
+	jne R7
+	ret
+R7:
+	rmmovq %r10, 48(%rsi)
+	andq %r10, %r10
+	jle Npos15
+	iaddq $1, %rax
+Npos15:
+
+
 ##################################################################
 # Do not modify the following section of code
 # Function epilogue.
