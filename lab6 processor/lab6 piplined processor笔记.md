@@ -17,15 +17,7 @@
 1. pipe-full.hcl：实现iaddq指令
 2. ncopy.ys：根据csapp章节3.5.8（循环展开）进行优化
 
-什么都没修改时，运行结果：（sdriver：2个元素。ldriver：63个元素）
-
-sdriver：
-
-<img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20220319203643894.png" alt="image-20220319203643894" style="zoom:50%;" />
-
-ldriver：
-
-<img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20220319203731202.png" alt="image-20220319203731202" style="zoom:50%;" />
+sdriver：2个元素。ldriver：63个元素
 
 benchmark结果：1~64个元素，平均CPE=15.18（pdf上说的）
 
@@ -86,7 +78,7 @@ benchmark结果：
 
 `4*1`展开：
 
-<img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20220320112406523.png" alt="image-20220320112406523" style="zoom:50%;" />
+<img src="https://s2.loli.net/2022/03/20/Y3o1hUbVm2Lqj5O.png" alt="image-20220320112406523" style="zoom:50%;" />
 
 `8*1`展开：
 
@@ -237,7 +229,7 @@ Loop1:
 
 结果：
 
-<img src="/Users/bytedance/Library/Application Support/typora-user-images/image-20220320122941846.png" alt="image-20220320122941846" style="zoom:50%;" />
+<img src="https://s2.loli.net/2022/03/20/lsSBbfgwo7e8iXp.png" alt="image-20220320122941846" style="zoom:50%;" />
 
 优化Remain标签的iaddq后：
 
