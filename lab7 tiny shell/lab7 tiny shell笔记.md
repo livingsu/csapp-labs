@@ -12,9 +12,9 @@ sdriver.pl的主要功能是模拟用户输入，比如可以等待1秒钟之后
 
 sdriver读取txt的每一行，识别自己的特殊命令（如TSTP，INT）等，可以给child shell发信号。自己识别不了的才通过Writer发送给child shell的stdin，child shell的打印（stdout）会发送给sdriver的Reader，然后Reader打印
 
-<img src="https://raw.githubusercontent.com/livingsu/ImageRepo/main/img/image-20220415095417364.png?token=GHSAT0AAAAAABSCQY2UCG3SAJYHDYQU2EOIYSY5FWA" alt="img" style="zoom:50%;" />
+<img src="https://s2.loli.net/2022/04/15/wSnVszkxF7o5KpU.png" alt="img" style="zoom:50%;" />
 
-<img src="https://raw.githubusercontent.com/livingsu/ImageRepo/main/img/image-20220415094446236.png?token=GHSAT0AAAAAABSCQY2V6MDULG4VF2AV4FUWYSY5FBA" alt="img" style="zoom:50%;" />
+<img src="https://s2.loli.net/2022/04/15/465Po2SAkIBWlwZ.png" alt="img" style="zoom:50%;" />
 
 <img src="https://s2.loli.net/2022/04/15/2AYbNGulhCvfMEk.png" alt="img" style="zoom:50%;" />
 
