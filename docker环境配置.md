@@ -47,3 +47,9 @@ apt upgrade
 apt install build-essential
 ```
 
+5. 上传文件：
+
+```
+svn commit filename -m 'message'
+```
+
